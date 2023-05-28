@@ -1,6 +1,7 @@
 package api
 
 import (
+	"golang-web-api/api/middlewares"
 	"golang-web-api/api/routers"
 	"golang-web-api/api/validations"
 	"log"
@@ -13,7 +14,7 @@ import (
 func InitServer() {
 	r := gin.New()
 	RegisterValidators()
-	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest())
 
 	v1 := r.Group("/api/v1")
 	{
