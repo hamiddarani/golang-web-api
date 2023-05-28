@@ -3,17 +3,32 @@ package config
 import (
 	"log"
 	"os"
+	"time"
 
 	"github.com/spf13/viper"
 )
 
 type Config struct {
 	Server ServerConfig
+	Redis RedisConfig
 }
 
 type ServerConfig struct {
 	Port    string
 	RunMode string
+}
+
+type RedisConfig struct {
+	Host               string
+	Port               string
+	Password           string
+	Db                 string
+	DialTimeout        time.Duration
+	ReadTimeout        time.Duration
+	WriteTimeout       time.Duration
+	PoolSize           int
+	PoolTimeout        time.Duration
+	IdleCheckFrequency time.Duration
 }
 
 func GetConfig() *Config {
