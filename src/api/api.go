@@ -1,9 +1,11 @@
 package api
 
 import (
+	"fmt"
 	"golang-web-api/api/middlewares"
 	"golang-web-api/api/routers"
 	"golang-web-api/api/validations"
+	"golang-web-api/config"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -11,7 +13,8 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func InitServer() {
+func InitServer(cfg *config.Config) {
+	gin.SetMode(cfg.Server.RunMode)
 	r := gin.New()
 	RegisterValidators()
 	r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest())
@@ -22,7 +25,7 @@ func InitServer() {
 		routers.Health(health)
 	}
 
-	r.Run(":5000")
+	r.Run(fmt.Sprintf(":%s", cfg.Server.Port))
 }
 
 func RegisterValidators() {

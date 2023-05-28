@@ -1,7 +1,11 @@
 package main
 
-import "golang-web-api/api"
+import (
+	"golang-web-api/api"
+	"golang-web-api/config"
+)
 
 func main() {
-	api.InitServer()
+	cfg := config.GetConfig()
+	api.InitServer(cfg)
 }
