@@ -5,7 +5,7 @@ import (
 	"golang-web-api/config"
 	"golang-web-api/data/cache"
 	"golang-web-api/data/db"
-	"log"
+	"golang-web-api/pkg/logging"
 )
 
 // @securityDefinitions.apikey AuthBearer
@@ -14,16 +14,18 @@ import (
 func main() {
 	cfg := config.GetConfig()
 
+	logger := logging.NewLogger(cfg)
+
 	err := cache.InitRedis(cfg)
 	defer cache.CloseRedis()
 	if err != nil {
-		log.Fatal("unable to connect to redis")
+		logger.Fatal(logging.Redis, logging.Startup, err.Error(), nil)
 	}
 
 	err = db.InitDb(cfg)
 	defer db.CloseDb()
 	if err != nil {
-		log.Fatal("unable to connect to database")
+		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
 	}
 
 	api.InitServer(cfg)
