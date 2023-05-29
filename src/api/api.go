@@ -16,14 +16,13 @@ import (
 func InitServer(cfg *config.Config) {
 	gin.SetMode(cfg.Server.RunMode)
 	r := gin.New()
+
 	RegisterValidators()
+
+	r.Use(middlewares.Cors(cfg))
 	r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest())
 
-	v1 := r.Group("/api/v1")
-	{
-		health := v1.Group("/health")
-		routers.Health(health)
-	}
+	RegisterRoutes(r, cfg)
 
 	r.Run(fmt.Sprintf(":%s", cfg.Server.Port))
 }
@@ -35,5 +34,16 @@ func RegisterValidators() {
 		if err != nil {
 			log.Print(err.Error())
 		}
+	}
+}
+
+func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
+	api := r.Group("/api")
+
+	v1 := api.Group("/v1")
+	{
+		// Health
+		health := v1.Group("/health")
+		routers.Health(health)
 	}
 }

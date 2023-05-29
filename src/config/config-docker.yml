@@ -21,3 +21,5 @@ postgres:
   maxIdleConns: 15
   maxOpenConns: 100
   connMaxLifetime: 5
+cors:
+  allowOrigins: "*"

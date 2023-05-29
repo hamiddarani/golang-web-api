@@ -9,9 +9,10 @@ import (
 )
 
 type Config struct {
-	Server ServerConfig
-	Redis RedisConfig
+	Server   ServerConfig
+	Redis    RedisConfig
 	Postgres PostgresConfig
+	Cors     CorsConfig
 }
 
 type ServerConfig struct {
@@ -42,6 +43,10 @@ type PostgresConfig struct {
 	MaxIdleConns    int
 	MaxOpenConns    int
 	ConnMaxLifetime time.Duration
+}
+
+type CorsConfig struct {
+	AllowOrigins string
 }
 
 func GetConfig() *Config {
