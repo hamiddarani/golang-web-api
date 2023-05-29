@@ -5,6 +5,7 @@ import (
 	"golang-web-api/config"
 	"golang-web-api/data/cache"
 	"golang-web-api/data/db"
+	"golang-web-api/data/db/migrations"
 	"golang-web-api/pkg/logging"
 )
 
@@ -27,6 +28,8 @@ func main() {
 	if err != nil {
 		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
 	}
+
+	migrations.UP_1()
 
 	api.InitServer(cfg)
 }
