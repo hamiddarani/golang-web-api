@@ -23,3 +23,8 @@ postgres:
   connMaxLifetime: 5
 cors:
   allowOrigins: "*"
+logger:
+  filePath: ../logs/
+  encoding: json
+  level: debug
+  logger: zap

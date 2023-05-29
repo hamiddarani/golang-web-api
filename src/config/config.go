@@ -13,6 +13,7 @@ type Config struct {
 	Redis    RedisConfig
 	Postgres PostgresConfig
 	Cors     CorsConfig
+	Logger   LoggerConfig
 }
 
 type ServerConfig struct {
@@ -47,6 +48,13 @@ type PostgresConfig struct {
 
 type CorsConfig struct {
 	AllowOrigins string
+}
+
+type LoggerConfig struct {
+	FilePath string
+	Encoding string
+	Level    string
+	Logger   string
 }
 
 func GetConfig() *Config {
