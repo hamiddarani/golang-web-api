@@ -6,6 +6,7 @@ require (
 	github.com/didip/tollbooth/v7 v7.0.1
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-playground/validator/v10 v10.11.2
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.1.2
 	github.com/redis/go-redis/v9 v9.0.4
 	github.com/rs/zerolog v1.29.1
