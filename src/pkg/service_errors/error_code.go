@@ -3,11 +3,14 @@ package service_errors
 const (
 
 	// Token
-	UnExpectedError = "Unexpected error"
-	ClaimsNotFound  = "Claims not found"
+	UnExpectedError = "unexpected error"
+	ClaimsNotFound  = "claims not found"
+	TokenRequired   = "token required"
+	TokenExpired    = "token expired"
+	TokenInvalid    = "token invalid"
 
 	// OTP
-	OptExists   = "Otp exists"
-	OtpUsed     = "Otp used"
-	OtpNotValid = "Otp invalid"
+	OptExists   = "otp exists"
+	OtpUsed     = "otp used"
+	OtpNotValid = "otp invalid"
 )
