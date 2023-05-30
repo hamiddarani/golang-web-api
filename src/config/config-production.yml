@@ -28,3 +28,7 @@ logger:
   encoding: json
   level: debug
   logger: zap
+otp:
+  expireTime: 120
+  digits: 6
+  limiter: 100
