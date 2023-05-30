@@ -8,6 +8,13 @@ definitions:
     required:
     - mobileNumber
     type: object
+  dtos.RefreshToken:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
   dtos.RegisterLoginByMobileRequest:
     properties:
       mobileNumber:
@@ -96,6 +103,36 @@ paths:
           schema:
             $ref: '#/definitions/helper.BaseHttpResponse'
       summary: RegisterLoginByMobileNumber
+      tags:
+      - Users
+  /v1/users/refresh-token:
+    post:
+      consumes:
+      - application/json
+      description: RefreshToken
+      parameters:
+      - description: RefreshToken
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.RefreshToken'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: RefreshToken
       tags:
       - Users
   /v1/users/send-otp:

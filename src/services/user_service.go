@@ -8,7 +8,9 @@ import (
 	"golang-web-api/data/db"
 	"golang-web-api/data/models"
 	"golang-web-api/pkg/logging"
+	"time"
 
+	"github.com/golang-jwt/jwt"
 	"gorm.io/gorm"
 )
 
@@ -31,7 +33,6 @@ func NewUserService(cfg *config.Config) *UserService {
 		otpService:   NewOtpService(cfg),
 	}
 }
-
 
 func (s *UserService) RegisterLoginByMobileNumber(req *dtos.RegisterLoginByMobileRequest) (*dtos.TokenDetail, error) {
 	err := s.otpService.ValidateOtp(req.MobileNumber, req.Otp)
@@ -119,6 +120,30 @@ func (s *UserService) RegisterLoginByMobileNumber(req *dtos.RegisterLoginByMobil
 	}
 	return token, nil
 
+}
+
+func (s *UserService) RefreshToken(req *dtos.RefreshToken) (*dtos.AccessToken, error) {
+	claimMap, err := s.tokenService.GetClaims(req.RefreshToken)
+	if err != nil {
+		return nil, err
+	}
+	td := &dtos.AccessToken{}
+	td.AccessTokenExpireTime = time.Now().Add(s.cfg.JWT.AccessTokenExpireDuration * time.Minute).Unix()
+
+	atc := jwt.MapClaims{}
+
+	atc[constants.UserIdKey] = claimMap[constants.UserIdKey]
+	atc[constants.MobileNumberKey] = claimMap[constants.MobileNumberKey]
+	atc[constants.RolesKey] = claimMap[constants.RolesKey]
+	atc[constants.ExpireTimeKey] = td.AccessTokenExpireTime
+
+	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atc)
+
+	td.AccessToken, err = at.SignedString([]byte(s.cfg.JWT.Secret))
+	if err != nil {
+		return nil, err
+	}
+	return td, nil
 }
 
 func (s *UserService) SendOtp(req *dtos.GetOtpRequest) error {

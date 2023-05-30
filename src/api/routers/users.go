@@ -14,4 +14,5 @@ func Users(router *gin.RouterGroup, cfg *config.Config) {
 	router.POST("/send-otp", middlewares.OtpLimiter(cfg), handler.SendOtp)
 
 	router.POST("/login", handler.RegisterLoginByMobileNumber)
+	router.POST("/refresh-token", handler.RefreshToken)
 }

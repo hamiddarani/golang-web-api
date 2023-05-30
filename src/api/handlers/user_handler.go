@@ -78,3 +78,32 @@ func (h *UserHandler) RegisterLoginByMobileNumber(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(token, true, 0))
 }
+
+// RefreshToken godoc
+// @Summary RefreshToken
+// @Description RefreshToken
+// @Tags Users
+// @Accept  json
+// @Produce  json
+// @Param Request body dtos.RefreshToken true "RefreshToken"
+// @Success 201 {object} helper.BaseHttpResponse "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Failure 409 {object} helper.BaseHttpResponse "Failed"
+// @Router /v1/users/refresh-token [post]
+func (h *UserHandler) RefreshToken(c *gin.Context){
+	req := new(dtos.RefreshToken)
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		return
+	}
+
+	token, err := h.service.RefreshToken(req)
+	if err != nil {
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
+			helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		return
+	}
+	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(token, true, 0))
+}

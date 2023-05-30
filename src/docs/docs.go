@@ -91,6 +91,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/users/refresh-token": {
+            "post": {
+                "description": "RefreshToken",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "RefreshToken",
+                "parameters": [
+                    {
+                        "description": "RefreshToken",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.RefreshToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users/send-otp": {
             "post": {
                 "description": "Send otp to user",
@@ -149,6 +195,17 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 11,
                     "minLength": 11
+                }
+            }
+        },
+        "dtos.RefreshToken": {
+            "type": "object",
+            "required": [
+                "refreshToken"
+            ],
+            "properties": {
+                "refreshToken": {
+                    "type": "string"
                 }
             }
         },
