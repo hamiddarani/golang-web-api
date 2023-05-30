@@ -22,9 +22,12 @@ type tokenDto struct {
 	Roles        []string
 }
 
-func (s *TokenService) NewTokenService(cfg *config.Config) *TokenService {
+func NewTokenService(cfg *config.Config) *TokenService {
 	logger := logging.NewLogger(cfg)
-	return &TokenService{cfg: cfg, logger: logger}
+	return &TokenService{
+		cfg:    cfg,
+		logger: logger,
+	}
 }
 
 func (s *TokenService) GenerateToken(token *tokenDto) (*dtos.TokenDetail, error) {
