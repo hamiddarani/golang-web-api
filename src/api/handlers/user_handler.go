@@ -49,3 +49,32 @@ func (h *UserHandler) SendOtp(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(nil, true, 0))
 
 }
+
+// RegisterLoginByMobileNumber godoc
+// @Summary RegisterLoginByMobileNumber
+// @Description RegisterLoginByMobileNumber
+// @Tags Users
+// @Accept  json
+// @Produce  json
+// @Param Request body dtos.RegisterLoginByMobileRequest true "RegisterLoginByMobileRequest"
+// @Success 201 {object} helper.BaseHttpResponse "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Failure 409 {object} helper.BaseHttpResponse "Failed"
+// @Router /v1/users/login [post]
+func (h *UserHandler) RegisterLoginByMobileNumber(c *gin.Context) {
+	req := new(dtos.RegisterLoginByMobileRequest)
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		return
+	}
+	token, err := h.service.RegisterLoginByMobileNumber(req)
+	if err != nil {
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
+			helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		return
+	}
+
+	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(token, true, 0))
+}

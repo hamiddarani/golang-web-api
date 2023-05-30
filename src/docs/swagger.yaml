@@ -8,6 +8,20 @@ definitions:
     required:
     - mobileNumber
     type: object
+  dtos.RegisterLoginByMobileRequest:
+    properties:
+      mobileNumber:
+        maxLength: 11
+        minLength: 11
+        type: string
+      otp:
+        maxLength: 6
+        minLength: 6
+        type: string
+    required:
+    - mobileNumber
+    - otp
+    type: object
   helper.BaseHttpResponse:
     properties:
       error: {}
@@ -54,6 +68,36 @@ paths:
       summary: Health Check
       tags:
       - health
+  /v1/users/login:
+    post:
+      consumes:
+      - application/json
+      description: RegisterLoginByMobileNumber
+      parameters:
+      - description: RegisterLoginByMobileRequest
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.RegisterLoginByMobileRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: RegisterLoginByMobileNumber
+      tags:
+      - Users
   /v1/users/send-otp:
     post:
       consumes:

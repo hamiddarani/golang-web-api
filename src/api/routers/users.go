@@ -8,8 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Users(r *gin.RouterGroup, cfg *config.Config) {
+func Users(router *gin.RouterGroup, cfg *config.Config) {
 	handler := handlers.NewUserHandler(cfg)
 
-	r.POST("/send-otp", middlewares.OtpLimiter(cfg), handler.SendOtp)
+	router.POST("/send-otp", middlewares.OtpLimiter(cfg), handler.SendOtp)
+
+	router.POST("/login", handler.RegisterLoginByMobileNumber)
 }
