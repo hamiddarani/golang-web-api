@@ -14,6 +14,9 @@ const (
 	OtpUsed     = "otp used"
 	OtpNotValid = "otp invalid"
 
+	// User
+	PermissionDenied = "Permission denied"
+
 	// DB
 	RecordNotFound = "record not found"
 )
