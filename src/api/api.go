@@ -53,6 +53,10 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		//Users
 		users := v1.Group("/users")
 		routers.Users(users, cfg)
+
+		//Base
+		countries := v1.Group("/countries", middlewares.Authentication(cfg))
+		routers.Country(countries, cfg)
 	}
 }
 

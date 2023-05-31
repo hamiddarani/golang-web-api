@@ -27,6 +27,9 @@ func createTables(database *gorm.DB) {
 	tables = addNewTable(database, models.Role{}, tables)
 	tables = addNewTable(database, models.UserRole{}, tables)
 
+	// Basic
+	tables = addNewTable(database, models.Country{}, tables)
+
 	err := database.Migrator().CreateTable(tables...)
 	if err != nil {
 		logger.Error(logging.Postgres, logging.Migration, err.Error(), nil)

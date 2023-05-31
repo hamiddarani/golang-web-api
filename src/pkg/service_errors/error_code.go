@@ -13,4 +13,7 @@ const (
 	OptExists   = "otp exists"
 	OtpUsed     = "otp used"
 	OtpNotValid = "otp invalid"
+
+	// DB
+	RecordNotFound = "record not found"
 )
