@@ -29,6 +29,7 @@ func createTables(database *gorm.DB) {
 
 	// Basic
 	tables = addNewTable(database, models.Country{}, tables)
+	tables = addNewTable(database, models.City{}, tables)
 
 	err := database.Migrator().CreateTable(tables...)
 	if err != nil {

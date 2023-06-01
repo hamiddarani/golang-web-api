@@ -120,3 +120,30 @@ func (h *CountryHandler) GetById(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
 }
 
+// GetCountries godoc
+// @Summary Get Countries
+// @Description Get Countries
+// @Tags Countries
+// @Accept json
+// @produces json
+// @Param Request body dtos.PaginationInputWithFilter true "Request"
+// @Success 200 {object} helper.BaseHttpResponse{result=dtos.PagedList[dtos.CountryResponse]} "Country response"
+// @Failure 400 {object} helper.BaseHttpResponse "Bad request"
+// @Router /v1/countries/get-by-filter [post]
+// @Security AuthBearer
+func (h *CountryHandler) GetByFilter(c *gin.Context) {
+	req := dtos.PaginationInputWithFilter{}
+
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		return
+	}
+	res, err := h.service.GetByFilter(c, &req)
+	if err != nil {
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		return
+	}
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+}
+

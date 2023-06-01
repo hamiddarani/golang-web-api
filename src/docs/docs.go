@@ -38,7 +38,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.CreateUpdateCountryRequest"
+                            "$ref": "#/definitions/golang-web-api_api_dtos.CreateUpdateCountryRequest"
                         }
                     }
                 ],
@@ -48,13 +48,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/helper.BaseHttpResponse"
+                                    "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "result": {
-                                            "$ref": "#/definitions/dtos.CountryResponse"
+                                            "$ref": "#/definitions/golang-web-api_api_dtos.CountryResponse"
                                         }
                                     }
                                 }
@@ -64,7 +64,61 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad request",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/countries/get-by-filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get Countries",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get Countries",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/golang-web-api_api_dtos.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Country response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/golang-web-api_api_dtos.PagedList-golang-web-api_api_dtos_CountryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -100,13 +154,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/helper.BaseHttpResponse"
+                                    "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "result": {
-                                            "$ref": "#/definitions/dtos.CountryResponse"
+                                            "$ref": "#/definitions/golang-web-api_api_dtos.CountryResponse"
                                         }
                                     }
                                 }
@@ -116,7 +170,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad request",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -149,7 +203,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.CreateUpdateCountryRequest"
+                            "$ref": "#/definitions/golang-web-api_api_dtos.CreateUpdateCountryRequest"
                         }
                     }
                 ],
@@ -159,13 +213,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/helper.BaseHttpResponse"
+                                    "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "result": {
-                                            "$ref": "#/definitions/dtos.CountryResponse"
+                                            "$ref": "#/definitions/golang-web-api_api_dtos.CountryResponse"
                                         }
                                     }
                                 }
@@ -175,7 +229,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad request",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -207,13 +261,13 @@ const docTemplate = `{
                     "200": {
                         "description": "response",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Bad request",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -236,13 +290,13 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -268,7 +322,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.RegisterLoginByMobileRequest"
+                            "$ref": "#/definitions/golang-web-api_api_dtos.RegisterLoginByMobileRequest"
                         }
                     }
                 ],
@@ -276,19 +330,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     },
                     "409": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -314,7 +368,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.RefreshToken"
+                            "$ref": "#/definitions/golang-web-api_api_dtos.RefreshToken"
                         }
                     }
                 ],
@@ -322,19 +376,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     },
                     "409": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -360,7 +414,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dtos.GetOtpRequest"
+                            "$ref": "#/definitions/golang-web-api_api_dtos.GetOtpRequest"
                         }
                     }
                 ],
@@ -368,19 +422,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     },
                     "400": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     },
                     "409": {
                         "description": "Failed",
                         "schema": {
-                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
                         }
                     }
                 }
@@ -388,7 +442,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dtos.CountryResponse": {
+        "golang-web-api_api_dtos.CountryResponse": {
             "type": "object",
             "properties": {
                 "id": {
@@ -399,7 +453,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.CreateUpdateCountryRequest": {
+        "golang-web-api_api_dtos.CreateUpdateCountryRequest": {
             "type": "object",
             "required": [
                 "name"
@@ -412,7 +466,26 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.GetOtpRequest": {
+        "golang-web-api_api_dtos.Filter": {
+            "type": "object",
+            "properties": {
+                "filterType": {
+                    "description": "text number",
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "contains notContains equals notEqual startsWith lessThan lessThanOrEqual greaterThan greaterThanOrEqual inRange endsWith",
+                    "type": "string"
+                }
+            }
+        },
+        "golang-web-api_api_dtos.GetOtpRequest": {
             "type": "object",
             "required": [
                 "mobileNumber"
@@ -425,7 +498,56 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.RefreshToken": {
+        "golang-web-api_api_dtos.PagedList-golang-web-api_api_dtos_CountryResponse": {
+            "type": "object",
+            "properties": {
+                "hasNextPage": {
+                    "type": "boolean"
+                },
+                "hasPreviousPage": {
+                    "type": "boolean"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/golang-web-api_api_dtos.CountryResponse"
+                    }
+                },
+                "pageNumber": {
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "type": "integer"
+                },
+                "totalRows": {
+                    "type": "integer"
+                }
+            }
+        },
+        "golang-web-api_api_dtos.PaginationInputWithFilter": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/golang-web-api_api_dtos.Filter"
+                    }
+                },
+                "pageNumber": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/golang-web-api_api_dtos.Sort"
+                    }
+                }
+            }
+        },
+        "golang-web-api_api_dtos.RefreshToken": {
             "type": "object",
             "required": [
                 "refreshToken"
@@ -436,7 +558,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dtos.RegisterLoginByMobileRequest": {
+        "golang-web-api_api_dtos.RegisterLoginByMobileRequest": {
             "type": "object",
             "required": [
                 "mobileNumber",
@@ -455,7 +577,18 @@ const docTemplate = `{
                 }
             }
         },
-        "helper.BaseHttpResponse": {
+        "golang-web-api_api_dtos.Sort": {
+            "type": "object",
+            "properties": {
+                "colId": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "string"
+                }
+            }
+        },
+        "golang-web-api_api_helper.BaseHttpResponse": {
             "type": "object",
             "properties": {
                 "error": {},
@@ -469,12 +602,12 @@ const docTemplate = `{
                 "validationErrors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/helper.ValidationError"
+                        "$ref": "#/definitions/golang-web-api_api_helper.ValidationError"
                     }
                 }
             }
         },
-        "helper.ValidationError": {
+        "golang-web-api_api_helper.ValidationError": {
             "type": "object",
             "properties": {
                 "message": {

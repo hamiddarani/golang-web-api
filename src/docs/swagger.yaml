@@ -1,12 +1,12 @@
 definitions:
-  dtos.CountryResponse:
+  golang-web-api_api_dtos.CountryResponse:
     properties:
       id:
         type: integer
       name:
         type: string
     type: object
-  dtos.CreateUpdateCountryRequest:
+  golang-web-api_api_dtos.CreateUpdateCountryRequest:
     properties:
       name:
         maxLength: 20
@@ -15,7 +15,21 @@ definitions:
     required:
     - name
     type: object
-  dtos.GetOtpRequest:
+  golang-web-api_api_dtos.Filter:
+    properties:
+      filterType:
+        description: text number
+        type: string
+      from:
+        type: string
+      to:
+        type: string
+      type:
+        description: contains notContains equals notEqual startsWith lessThan lessThanOrEqual
+          greaterThan greaterThanOrEqual inRange endsWith
+        type: string
+    type: object
+  golang-web-api_api_dtos.GetOtpRequest:
     properties:
       mobileNumber:
         maxLength: 11
@@ -24,14 +38,46 @@ definitions:
     required:
     - mobileNumber
     type: object
-  dtos.RefreshToken:
+  golang-web-api_api_dtos.PagedList-golang-web-api_api_dtos_CountryResponse:
+    properties:
+      hasNextPage:
+        type: boolean
+      hasPreviousPage:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/golang-web-api_api_dtos.CountryResponse'
+        type: array
+      pageNumber:
+        type: integer
+      totalPages:
+        type: integer
+      totalRows:
+        type: integer
+    type: object
+  golang-web-api_api_dtos.PaginationInputWithFilter:
+    properties:
+      filter:
+        additionalProperties:
+          $ref: '#/definitions/golang-web-api_api_dtos.Filter'
+        type: object
+      pageNumber:
+        type: integer
+      pageSize:
+        type: integer
+      sort:
+        items:
+          $ref: '#/definitions/golang-web-api_api_dtos.Sort'
+        type: array
+    type: object
+  golang-web-api_api_dtos.RefreshToken:
     properties:
       refreshToken:
         type: string
     required:
     - refreshToken
     type: object
-  dtos.RegisterLoginByMobileRequest:
+  golang-web-api_api_dtos.RegisterLoginByMobileRequest:
     properties:
       mobileNumber:
         maxLength: 11
@@ -45,7 +91,14 @@ definitions:
     - mobileNumber
     - otp
     type: object
-  helper.BaseHttpResponse:
+  golang-web-api_api_dtos.Sort:
+    properties:
+      colId:
+        type: string
+      sort:
+        type: string
+    type: object
+  golang-web-api_api_helper.BaseHttpResponse:
     properties:
       error: {}
       result: {}
@@ -55,10 +108,10 @@ definitions:
         type: boolean
       validationErrors:
         items:
-          $ref: '#/definitions/helper.ValidationError'
+          $ref: '#/definitions/golang-web-api_api_helper.ValidationError'
         type: array
     type: object
-  helper.ValidationError:
+  golang-web-api_api_helper.ValidationError:
     properties:
       message:
         type: string
@@ -83,21 +136,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/dtos.CreateUpdateCountryRequest'
+          $ref: '#/definitions/golang-web-api_api_dtos.CreateUpdateCountryRequest'
       responses:
         "201":
           description: Country response
           schema:
             allOf:
-            - $ref: '#/definitions/helper.BaseHttpResponse'
+            - $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/dtos.CountryResponse'
+                  $ref: '#/definitions/golang-web-api_api_dtos.CountryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Create a country
@@ -118,11 +171,11 @@ paths:
         "200":
           description: response
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Delete a country
@@ -143,15 +196,15 @@ paths:
           description: Country response
           schema:
             allOf:
-            - $ref: '#/definitions/helper.BaseHttpResponse'
+            - $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/dtos.CountryResponse'
+                  $ref: '#/definitions/golang-web-api_api_dtos.CountryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get a country
@@ -172,24 +225,55 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/dtos.CreateUpdateCountryRequest'
+          $ref: '#/definitions/golang-web-api_api_dtos.CreateUpdateCountryRequest'
       responses:
         "200":
           description: Country response
           schema:
             allOf:
-            - $ref: '#/definitions/helper.BaseHttpResponse'
+            - $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/dtos.CountryResponse'
+                  $ref: '#/definitions/golang-web-api_api_dtos.CountryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Update a country
+      tags:
+      - Countries
+  /v1/countries/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Countries
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/golang-web-api_api_dtos.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: Country response
+          schema:
+            allOf:
+            - $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/golang-web-api_api_dtos.PagedList-golang-web-api_api_dtos_CountryResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Countries
       tags:
       - Countries
   /v1/health/:
@@ -203,11 +287,11 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
       summary: Health Check
       tags:
       - health
@@ -222,22 +306,22 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/dtos.RegisterLoginByMobileRequest'
+          $ref: '#/definitions/golang-web-api_api_dtos.RegisterLoginByMobileRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
         "409":
           description: Failed
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
       summary: RegisterLoginByMobileNumber
       tags:
       - Users
@@ -252,22 +336,22 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/dtos.RefreshToken'
+          $ref: '#/definitions/golang-web-api_api_dtos.RefreshToken'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
         "409":
           description: Failed
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
       summary: RefreshToken
       tags:
       - Users
@@ -282,22 +366,22 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/dtos.GetOtpRequest'
+          $ref: '#/definitions/golang-web-api_api_dtos.GetOtpRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
         "409":
           description: Failed
           schema:
-            $ref: '#/definitions/helper.BaseHttpResponse'
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
       summary: Send otp to user
       tags:
       - Users
