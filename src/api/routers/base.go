@@ -16,3 +16,13 @@ func Country(router *gin.RouterGroup, cfg *config.Config) {
 	router.GET("/:id", handler.GetById)
 	router.POST("/get-by-filter", handler.GetByFilter)
 }
+
+func City(r *gin.RouterGroup, cfg *config.Config) {
+	h := handlers.NewCityHandler(cfg)
+
+	r.POST("/", h.Create)
+	r.PUT("/:id", h.Update)
+	r.DELETE("/:id", h.Delete)
+	r.GET("/:id", h.GetById)
+	r.POST("/get-by-filter", h.GetByFilter)
+}

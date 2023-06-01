@@ -1,10 +1,31 @@
 definitions:
+  golang-web-api_api_dtos.CityResponse:
+    properties:
+      country:
+        $ref: '#/definitions/golang-web-api_api_dtos.CountryResponse'
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   golang-web-api_api_dtos.CountryResponse:
     properties:
       id:
         type: integer
       name:
         type: string
+    type: object
+  golang-web-api_api_dtos.CreateCityRequest:
+    properties:
+      countryId:
+        type: integer
+      name:
+        maxLength: 20
+        minLength: 3
+        type: string
+    required:
+    - countryId
+    - name
     type: object
   golang-web-api_api_dtos.CreateUpdateCountryRequest:
     properties:
@@ -37,6 +58,23 @@ definitions:
         type: string
     required:
     - mobileNumber
+    type: object
+  golang-web-api_api_dtos.PagedList-golang-web-api_api_dtos_CityResponse:
+    properties:
+      hasNextPage:
+        type: boolean
+      hasPreviousPage:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/golang-web-api_api_dtos.CityResponse'
+        type: array
+      pageNumber:
+        type: integer
+      totalPages:
+        type: integer
+      totalRows:
+        type: integer
     type: object
   golang-web-api_api_dtos.PagedList-golang-web-api_api_dtos_CountryResponse:
     properties:
@@ -98,6 +136,15 @@ definitions:
       sort:
         type: string
     type: object
+  golang-web-api_api_dtos.UpdateCityRequest:
+    properties:
+      countryId:
+        type: integer
+      name:
+        maxLength: 20
+        minLength: 3
+        type: string
+    type: object
   golang-web-api_api_helper.BaseHttpResponse:
     properties:
       error: {}
@@ -125,6 +172,169 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/cities/:
+    post:
+      consumes:
+      - application/json
+      description: Create a City
+      parameters:
+      - description: Create a City
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/golang-web-api_api_dtos.CreateCityRequest'
+      responses:
+        "201":
+          description: City response
+          schema:
+            allOf:
+            - $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/golang-web-api_api_dtos.CityResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a City
+      tags:
+      - Cities
+  /v1/cities/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a City
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a City
+      tags:
+      - Cities
+    get:
+      consumes:
+      - application/json
+      description: Get a City
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: City response
+          schema:
+            allOf:
+            - $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/golang-web-api_api_dtos.CityResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get a City
+      tags:
+      - Cities
+    put:
+      consumes:
+      - application/json
+      description: Update a City
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a City
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/golang-web-api_api_dtos.UpdateCityRequest'
+      responses:
+        "200":
+          description: City response
+          schema:
+            allOf:
+            - $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/golang-web-api_api_dtos.CityResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a City
+      tags:
+      - Cities
+  /v1/cities/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Cities
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/golang-web-api_api_dtos.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            allOf:
+            - $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/golang-web-api_api_dtos.PagedList-golang-web-api_api_dtos_CityResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/golang-web-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Cities
+      tags:
+      - Cities
   /v1/countries/:
     post:
       consumes:
