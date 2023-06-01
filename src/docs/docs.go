@@ -548,6 +548,213 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/files/": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a file",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Create a file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Create a file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "File response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/golang-web-api_api_dtos.FileResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/files/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get a file",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Get a file",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/golang-web-api_api_dtos.FileResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a file",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Update a file",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a file",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/golang-web-api_api_dtos.UpdateFileRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/golang-web-api_api_dtos.FileResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a file",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Delete a file",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/golang-web-api_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/health/": {
             "get": {
                 "description": "Health Check",
@@ -772,6 +979,26 @@ const docTemplate = `{
                 }
             }
         },
+        "golang-web-api_api_dtos.FileResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "directory": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "mimeType": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "golang-web-api_api_dtos.Filter": {
             "type": "object",
             "properties": {
@@ -933,6 +1160,14 @@ const docTemplate = `{
                 }
             }
         },
+        "golang-web-api_api_dtos.UpdateFileRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
         "golang-web-api_api_helper.BaseHttpResponse": {
             "type": "object",
             "properties": {
@@ -965,6 +1200,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "multipart.FileHeader": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string"
+                },
+                "header": {
+                    "$ref": "#/definitions/textproto.MIMEHeader"
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "textproto.MIMEHeader": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
                     "type": "string"
                 }
             }

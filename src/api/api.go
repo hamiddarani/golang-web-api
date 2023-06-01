@@ -59,6 +59,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		routers.Country(countries, cfg)
 		cities := v1.Group("/cities", middlewares.Authentication(cfg))
 		routers.City(cities, cfg)
+		files := v1.Group("/files", middlewares.Authentication(cfg))
+		routers.File(files, cfg)
 	}
 }
 
