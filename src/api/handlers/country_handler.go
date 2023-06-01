@@ -1,12 +1,8 @@
 package handlers
 
 import (
-	"golang-web-api/api/dtos"
-	"golang-web-api/api/helper"
 	"golang-web-api/config"
 	"golang-web-api/services"
-	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -33,19 +29,7 @@ func NewCountryHandler(cfg *config.Config) *CountryHandler {
 // @Router /v1/countries/ [post]
 // @Security AuthBearer
 func (h *CountryHandler) Create(c *gin.Context) {
-	req := dtos.CreateUpdateCountryRequest{}
-
-	err := c.ShouldBindJSON(&req)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := h.service.Create(c, &req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	Create(c, h.service.Create)
 }
 
 // UpdateCountry godoc
@@ -61,20 +45,7 @@ func (h *CountryHandler) Create(c *gin.Context) {
 // @Router /v1/countries/{id} [put]
 // @Security AuthBearer
 func (h *CountryHandler) Update(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	req := dtos.CreateUpdateCountryRequest{}
-
-	err := c.ShouldBindJSON(&req)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := h.service.Update(c, id, &req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	Update(c, h.service.Update)
 }
 
 // DeleteCountry godoc
@@ -89,13 +60,7 @@ func (h *CountryHandler) Update(c *gin.Context) {
 // @Router /v1/countries/{id} [delete]
 // @Security AuthBearer
 func (h *CountryHandler) Delete(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	err := h.service.Delete(c, id)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	c.JSON(http.StatusNoContent, helper.GenerateBaseResponse(nil, true, 0))
+	Delete(c, h.service.Delete)
 }
 
 // GetCountry godoc
@@ -110,14 +75,7 @@ func (h *CountryHandler) Delete(c *gin.Context) {
 // @Router /v1/countries/{id} [get]
 // @Security AuthBearer
 func (h *CountryHandler) GetById(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-
-	res, err := h.service.GetById(c, id)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	GetById(c, h.service.GetById)
 }
 
 // GetCountries godoc
@@ -132,18 +90,5 @@ func (h *CountryHandler) GetById(c *gin.Context) {
 // @Router /v1/countries/get-by-filter [post]
 // @Security AuthBearer
 func (h *CountryHandler) GetByFilter(c *gin.Context) {
-	req := dtos.PaginationInputWithFilter{}
-
-	err := c.ShouldBindJSON(&req)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := h.service.GetByFilter(c, &req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	GetByFilter(c, h.service.GetByFilter)
 }
-

@@ -81,20 +81,7 @@ func (h *FileHandler) Create(c *gin.Context) {
 // @Router /v1/files/{id} [put]
 // @Security AuthBearer
 func (h *FileHandler) Update(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	req := dtos.UpdateFileRequest{}
-
-	err := c.ShouldBindJSON(&req)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := h.service.Update(c, id, &req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	Update(c, h.service.Update)
 }
 
 // DeleteFile godoc
@@ -148,17 +135,10 @@ func (h *FileHandler) Delete(c *gin.Context) {
 // @Router /v1/files/{id} [get]
 // @Security AuthBearer
 func (h *FileHandler) GetById(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-
-	res, err := h.service.GetById(c, id)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	GetById(c, h.service.GetById)
 }
 
-func saveUploadFile(file *multipart.FileHeader, directory string) (string, error) {	
+func saveUploadFile(file *multipart.FileHeader, directory string) (string, error) {
 	randFileName := uuid.New()
 	err := os.MkdirAll(directory, os.ModePerm)
 	if err != nil {
