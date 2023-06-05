@@ -7,14 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Country(router *gin.RouterGroup, cfg *config.Config) {
-	handler := handlers.NewCountryHandler(cfg)
+func Country(r *gin.RouterGroup, cfg *config.Config) {
+	h := handlers.NewCountryHandler(cfg)
 
-	router.POST("/", handler.Create)
-	router.PUT("/:id", handler.Update)
-	router.DELETE("/:id", handler.Delete)
-	router.GET("/:id", handler.GetById)
-	router.POST("/get-by-filter", handler.GetByFilter)
+	r.POST("/", h.Create)
+	r.PUT("/:id", h.Update)
+	r.DELETE("/:id", h.Delete)
+	r.GET("/:id", h.GetById)
+	r.POST("/get-by-filter", h.GetByFilter)
 }
 
 func City(r *gin.RouterGroup, cfg *config.Config) {
@@ -34,4 +34,34 @@ func File(r *gin.RouterGroup, cfg *config.Config) {
 	r.PUT("/:id", h.Update)
 	r.DELETE("/:id", h.Delete)
 	r.GET("/:id", h.GetById)
+}
+
+func Company(r *gin.RouterGroup, cfg *config.Config) {
+	h := handlers.NewCompanyHandler(cfg)
+
+	r.POST("/", h.Create)
+	r.PUT("/:id", h.Update)
+	r.DELETE("/:id", h.Delete)
+	r.GET("/:id", h.GetById)
+	r.POST("/get-by-filter", h.GetByFilter)
+}
+
+func Color(r *gin.RouterGroup, cfg *config.Config) {
+	h := handlers.NewColorHandler(cfg)
+
+	r.POST("/", h.Create)
+	r.PUT("/:id", h.Update)
+	r.DELETE("/:id", h.Delete)
+	r.GET("/:id", h.GetById)
+	r.POST("/get-by-filter", h.GetByFilter)
+}
+
+func Year(r *gin.RouterGroup, cfg *config.Config) {
+	h := handlers.NewPersianYearHandler(cfg)
+
+	r.POST("/", h.Create)
+	r.PUT("/:id", h.Update)
+	r.DELETE("/:id", h.Delete)
+	r.GET("/:id", h.GetById)
+	r.POST("/get-by-filter", h.GetByFilter)
 }

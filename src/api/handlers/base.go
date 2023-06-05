@@ -2,15 +2,11 @@ package handlers
 
 import (
 	"golang-web-api/api/helper"
-	"golang-web-api/config"
-	"golang-web-api/pkg/logging"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
-
-var logger = logging.NewLogger(config.GetConfig())
 
 func Create[Ti any, To any](c *gin.Context, caller func(c *gin.Context, req *Ti) (*To, error)) {
 	req := new(Ti)
