@@ -46,6 +46,23 @@ services:
       - "6379:6379"
     networks:
       - webapi_network
+  
+  ####################### APP #######################
+  car-api1:
+    build: ../src/
+    image: car-api:latest
+    container_name: web-api1
+    environment:
+      - PORT=9001
+    ports:
+      - 9001:5000
+    networks:
+      - webapi_network
+    volumes:
+      - logs:/app/logs
+    depends_on:
+      - postgres
+    restart: unless-stopped
 
 
 ####################### VOLUME AND NETWORKS #######################

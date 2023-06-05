@@ -28,7 +28,7 @@ func InitServer(cfg *config.Config) {
 	RegisterRoutes(r, cfg)
 	RegisterSwagger(r, cfg)
 
-	r.Run(fmt.Sprintf(":%s", cfg.Server.Port))
+	r.Run(fmt.Sprintf(":%s", cfg.Server.InternalPort))
 }
 
 func RegisterValidators() {
@@ -119,7 +119,7 @@ func RegisterSwagger(r *gin.Engine, cfg *config.Config) {
 	docs.SwaggerInfo.Description = "golang web api"
 	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.BasePath = "/api"
-	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%s", cfg.Server.Port)
+	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%s", cfg.Server.ExternalPort)
 	docs.SwaggerInfo.Schemes = []string{"http"}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

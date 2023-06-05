@@ -1,5 +1,6 @@
 server:
-  port: 5000
+  internalPort: 5000
+  externalPort: 9000
   runMode: debug
 redis:
   host: localhost
